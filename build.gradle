@@ -34,4 +34,9 @@ tasks.register('run', JavaExec) {
     systemProperty 'java.library.path', 'build/natives/lib'
 }
 
+tasks.register('tune', JavaExec) {
+    dependsOn jar
+    mainClass = 'com.waterloorocketry.dragoverride.PidTuner'
+    classpath = files('./OpenRocket-24.12.beta.01.jar', tasks.jar)
+}
 
