@@ -5,16 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2b2b3306-80ab-49af-b32d-dd86ff4302a7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/util/LazyMap.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/util/LazyNavigableMap.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/util/LazySortedMap.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rockets/Eridium/Cycle_4_REVIEWED.ork" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rockets/Eridium/Eridium_Flight_RSE.rse" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rockets/Eridium/Final Simulation Result.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/example/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/waterloorocketry/dragoverride/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/test/java/org/example/AppTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/test/java/com/waterloorocketry/dragoverride/AppTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,7 +142,8 @@
       <workItem from="1738733521693" duration="28000" />
       <workItem from="1738733568938" duration="949000" />
       <workItem from="1738734520635" duration="99000" />
-      <workItem from="1738734620757" duration="1813000" />
+      <workItem from="1738734620757" duration="3045000" />
+      <workItem from="1738815296152" duration="614000" />
     </task>
     <servers />
   </component>
