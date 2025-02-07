@@ -3,6 +3,8 @@
  */
 package com.waterloorocketry.dragoverride;
 
+import info.openrocket.core.plugin.PluginModule;
+
 public class App {
     public String getGreeting() {
         return "Hello World!";
