@@ -1,8 +1,8 @@
 package com.waterloorocketry.dragoverride;
 
+import com.waterloorocketry.dragoverride.DragOverride;
 import info.openrocket.core.document.Simulation;
 import info.openrocket.core.plugin.Plugin;
-import info.openrocket.core.simulation.extension.example.AirStart;
 import info.openrocket.core.unit.UnitGroup;
 import info.openrocket.swing.gui.SpinnerEditor;
 import info.openrocket.swing.gui.adaptors.DoubleModel;
@@ -16,13 +16,13 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 
 @Plugin
-public class DragOverrideConfigurator extends AbstractSwingSimulationExtensionConfigurator<AirStart> {
+public class DragOverrideConfigurator extends AbstractSwingSimulationExtensionConfigurator<DragOverride> {
 
     protected DragOverrideConfigurator() {
-        super(AirStart.class);
+        super(DragOverride.class);
     }
 
-    protected JComponent getConfigurationComponent(AirStart extension, Simulation simulation, JPanel panel) {
+    protected JComponent getConfigurationComponent(DragOverride extension, Simulation simulation, JPanel panel) {
         panel.add(new JLabel("Hello World Launch altitude:"));
         DoubleModel m = new DoubleModel(extension, "LaunchAltitude", UnitGroup.UNITS_DISTANCE, (double)0.0F);
         JSpinner spin = new JSpinner(m.getSpinnerModel());
