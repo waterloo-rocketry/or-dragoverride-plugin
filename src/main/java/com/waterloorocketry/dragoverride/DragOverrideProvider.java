@@ -11,6 +11,6 @@ import info.openrocket.core.simulation.extension.example.AirStart;
 @Plugin
 public class DragOverrideProvider extends AbstractSimulationExtensionProvider {
     public DragOverrideProvider() {
-        super(AirStart.class, new String[]{"Waterloo Rocketry", "Drag Override"});
+        super(DragOverride.class, new String[]{"Waterloo Rocketry", "Drag Override"});
     }
 }

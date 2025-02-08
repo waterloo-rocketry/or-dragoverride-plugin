@@ -14,6 +14,8 @@ import info.openrocket.core.simulation.listeners.AbstractSimulationListener;
 import info.openrocket.core.unit.UnitGroup;
 import info.openrocket.core.util.Coordinate;
 
+
+
 public class DragOverride extends AbstractSimulationExtension {
     public DragOverride() {
     }
@@ -22,21 +24,18 @@ public class DragOverride extends AbstractSimulationExtension {
         conditions.getSimulationListenerList().add(new DragOverride.DragOverrideListener());
     }
 
-    public String getName() {
-        String name;
-        if (this.getLaunchVelocity() > 0.01) {
-            name = this.trans.get("SimulationExtension.airstart.name.altvel");
-        } else {
-            name = this.trans.get("SimulationExtension.airstart.name.alt");
-        }
-
-        name = L10N.replace(name, "{alt}", UnitGroup.UNITS_DISTANCE.toStringUnit(this.getLaunchAltitude()));
-        name = L10N.replace(name, "{vel}", UnitGroup.UNITS_VELOCITY.toStringUnit(this.getLaunchVelocity()));
-        return name;
+    public String getName()
+    {
+        return "DragOverride";
     }
 
+    public String getId() {
+        return "com.waterloorocketry.dragoverride";
+    }
+
+    @Override
     public String getDescription() {
-        return "Start simulation with a configurable altitude and velocity";
+        return "A plugin that overrides OpenRocket's drag coefficient based on a selected csv file.";
     }
 
     public double getLaunchAltitude() {

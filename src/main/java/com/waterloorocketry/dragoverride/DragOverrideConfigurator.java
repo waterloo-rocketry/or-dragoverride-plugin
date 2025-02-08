@@ -23,7 +23,7 @@ public class DragOverrideConfigurator extends AbstractSwingSimulationExtensionCo
     }
 
     protected JComponent getConfigurationComponent(DragOverride extension, Simulation simulation, JPanel panel) {
-        panel.add(new JLabel("Hello World Launch altitude:"));
+        panel.add(new JLabel("Select reference .csv file:"));
         DoubleModel m = new DoubleModel(extension, "LaunchAltitude", UnitGroup.UNITS_DISTANCE, (double)0.0F);
         JSpinner spin = new JSpinner(m.getSpinnerModel());
         spin.setEditor(new SpinnerEditor(spin));
