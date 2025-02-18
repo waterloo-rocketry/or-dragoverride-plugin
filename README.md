@@ -1,6 +1,6 @@
 # or-dragoverride-plugin
 
-### Pre Require:
+### Prerequisites:
 - JDK 17
 - Gradle
 - Intellij (Optional, Recommend)
