@@ -9,11 +9,9 @@ import info.openrocket.swing.gui.adaptors.DoubleModel;
 import info.openrocket.swing.gui.components.BasicSlider;
 import info.openrocket.swing.gui.components.UnitSelector;
 import info.openrocket.swing.simulation.extension.AbstractSwingSimulationExtensionConfigurator;
-import javax.swing.Action;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 @Plugin
 public class DragOverrideConfigurator extends AbstractSwingSimulationExtensionConfigurator<DragOverride> {
@@ -23,24 +21,20 @@ public class DragOverrideConfigurator extends AbstractSwingSimulationExtensionCo
     }
 
     protected JComponent getConfigurationComponent(DragOverride extension, Simulation simulation, JPanel panel) {
-        panel.add(new JLabel("Select reference .csv file:"));
-        DoubleModel m = new DoubleModel(extension, "LaunchAltitude", UnitGroup.UNITS_DISTANCE, (double)0.0F);
-        JSpinner spin = new JSpinner(m.getSpinnerModel());
-        spin.setEditor(new SpinnerEditor(spin));
-        panel.add(spin, "w 65lp!");
-        UnitSelector unit = new UnitSelector(m, new Action[0]);
-        panel.add(unit, "w 25");
-        BasicSlider slider = new BasicSlider(m.getSliderModel((double)0.0F, (double)1000.0F));
-        panel.add(slider, "w 75lp, wrap");
-        panel.add(new JLabel("Launch velocity:"));
-        m = new DoubleModel(extension, "LaunchVelocity", UnitGroup.UNITS_VELOCITY, (double)0.0F);
-        spin = new JSpinner(m.getSpinnerModel());
-        spin.setEditor(new SpinnerEditor(spin));
-        panel.add(spin, "w 65lp!");
-        unit = new UnitSelector(m, new Action[0]);
-        panel.add(unit, "w 25");
-        slider = new BasicSlider(m.getSliderModel((double)0.0F, (double)150.0F));
-        panel.add(slider, "w 75lp, wrap");
+        panel.add(new JLabel("Reference .csv file:"));
+
+        JButton selectFile = new JButton("Select File");
+        JFileChooser fileChooser = new JFileChooser();
+        // prevents directories from being selected
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        // shows only csv files
+        fileChooser.setFileFilter(new FileNameExtensionFilter("CSV Files (*.csv)", "csv"));
+
+        selectFile.addActionListener(event -> {
+            fileChooser.showOpenDialog(panel);
+        });
+
+        panel.add(selectFile);
         return panel;
     }
 }
