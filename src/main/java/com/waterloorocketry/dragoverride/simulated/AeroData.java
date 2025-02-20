@@ -18,6 +18,23 @@ public class AeroData {
     private double cp0to4deg;
     private double reynoldsNumber;    // Constructs an AeroData object from an array of CSV values.
 
+    public AeroData(double alpha, double cd, double cdPowerOff, double cdPowerOn, double caPowerOff, double caPowerOn, double cl, double cn, double cnPotential, double cnViscous, double cnAlpha, double cp, double cp0to4deg, double reynoldsNumber) {
+        this.alpha = alpha;
+        this.cd = cd;
+        this.cdPowerOff = cdPowerOff;
+        this.cdPowerOn = cdPowerOn;
+        this.caPowerOff = caPowerOff;
+        this.caPowerOn = caPowerOn;
+        this.cl = cl;
+        this.cn = cn;
+        this.cnPotential = cnPotential;
+        this.cnViscous = cnViscous;
+        this.cnAlpha = cnAlpha;
+        this.cp = cp;
+        this.cp0to4deg = cp0to4deg;
+        this.reynoldsNumber = reynoldsNumber;
+    }
+
     // Assumes values[0] is Mach (the key) and the rest follow in order.
     public AeroData(String[] values) {
         // values[1] -> Alpha, values[2] -> CD, values[3] -> CD Power-Off, etc.

@@ -6,7 +6,6 @@ package com.waterloorocketry.dragoverride;
 
 import info.openrocket.core.plugin.Plugin;
 import info.openrocket.core.simulation.extension.AbstractSimulationExtensionProvider;
-import info.openrocket.core.simulation.extension.example.AirStart;
 
 @Plugin
 public class DragOverrideProvider extends AbstractSimulationExtensionProvider {

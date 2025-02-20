@@ -6,14 +6,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.waterloorocketry.dragoverride.simulated.AeroData;
 import com.waterloorocketry.dragoverride.util.LazyMap;
 
-
 public class ReadCSV {
-    public static void main(String[] args) {
-        String csvFile = "./rockets/Aurora/CD_vs_MachNumber_2025-01-18.CSV";
-        // Adjust the path as needed
+    public static LazyMap<Double, AeroData, AeroData> readCSV(String csvFile) {
         String delimiter = ",";
         Map<Double, AeroData> rawMap = new HashMap<>();
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
@@ -21,7 +17,7 @@ public class ReadCSV {
             String headerLine = br.readLine();
             if (headerLine == null) {
                 System.err.println("CSV file is empty.");
-                return;
+                return null;
             }
             String[] headers = headerLine.split(delimiter);
             Map<String, Integer> headerMap = new HashMap<>();
@@ -40,12 +36,10 @@ public class ReadCSV {
             }
 
             // Wrap the raw map in a LazyMap. Here the computation function is the identity.
-            LazyMap<Double, AeroData, AeroData> lazyMap = new LazyMap<>(rawMap, data -> data);
-
-            // Example usage: print the AeroData for Mach 0.01
-            System.out.println("AeroData for Mach 0.01: " + lazyMap.get(0.01));
+            return new LazyMap<>(rawMap, data -> data);
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
     }
 }

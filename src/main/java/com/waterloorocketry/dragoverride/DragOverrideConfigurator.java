@@ -1,13 +1,7 @@
 package com.waterloorocketry.dragoverride;
 
-import com.waterloorocketry.dragoverride.DragOverride;
 import info.openrocket.core.document.Simulation;
 import info.openrocket.core.plugin.Plugin;
-import info.openrocket.core.unit.UnitGroup;
-import info.openrocket.swing.gui.SpinnerEditor;
-import info.openrocket.swing.gui.adaptors.DoubleModel;
-import info.openrocket.swing.gui.components.BasicSlider;
-import info.openrocket.swing.gui.components.UnitSelector;
 import info.openrocket.swing.simulation.extension.AbstractSwingSimulationExtensionConfigurator;
 
 import javax.swing.*;
