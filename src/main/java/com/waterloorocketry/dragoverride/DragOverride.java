@@ -21,7 +21,7 @@ public class DragOverride extends AbstractSimulationExtension {
     }
 
     public void initialize(SimulationConditions conditions) throws SimulationException {
-        conditions.getSimulationListenerList().add(new DragOverride.DragOverrideListener());
+        conditions.getSimulationListenerList().add(new DragOverrideSimulationListener());
 
         ReadCSV readCSV = new ReadCSV();
         LazyMap<Double, AeroData, AeroData> dragData = readCSV.readCSV(this.getCSVFile());
@@ -47,16 +47,5 @@ public class DragOverride extends AbstractSimulationExtension {
     void setCSVFile(String csvFile) {
         config.put("csvFile", csvFile);
         fireChangeEvent();
-    }
-
-
-    private class DragOverrideListener extends AbstractSimulationListener {
-        private DragOverrideListener() {
-        }
-
-        public void startSimulation(SimulationStatus status) throws SimulationException {
-//            status.setRocketPosition(new Coordinate((double) 0.0F, (double) 0.0F, DragOverride.this.getLaunchAltitude()));
-//            status.setRocketVelocity(status.getRocketOrientationQuaternion().rotate(new Coordinate((double) 0.0F, (double) 0.0F, DragOverride.this.getLaunchVelocity())));
-        }
     }
 }
