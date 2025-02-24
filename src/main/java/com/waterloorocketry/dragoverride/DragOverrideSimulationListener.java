@@ -22,7 +22,7 @@ public class DragOverrideSimulationListener extends AbstractSimulationListener {
     @Override
     public AerodynamicForces postAerodynamicCalculation(SimulationStatus status, AerodynamicForces forces) throws SimulationException {
         final double velocityZ = status.getRocketVelocity().z;
-        System.out.println("Velocity: " + velocityZ);
+//        System.out.println("Velocity: " + velocityZ);
         return forces;
     }
 }
