@@ -9,11 +9,8 @@ import com.waterloorocketry.dragoverride.simulated.AeroData;
 import com.waterloorocketry.dragoverride.simulated.ReadCSV;
 import com.waterloorocketry.dragoverride.util.LazyMap;
 import info.openrocket.core.simulation.SimulationConditions;
-import info.openrocket.core.simulation.SimulationStatus;
 import info.openrocket.core.simulation.exception.SimulationException;
 import info.openrocket.core.simulation.extension.AbstractSimulationExtension;
-import info.openrocket.core.simulation.listeners.AbstractSimulationListener;
-import info.openrocket.core.util.Coordinate;
 
 
 public class DragOverride extends AbstractSimulationExtension {
@@ -25,14 +22,11 @@ public class DragOverride extends AbstractSimulationExtension {
 
         ReadCSV readCSV = new ReadCSV();
         LazyMap<Double, AeroData, AeroData> dragData = readCSV.readCSV(this.getCSVFile());
+        System.out.println(dragData.get(0.1).toString());
     }
 
     public String getName() {
         return "DragOverride";
-    }
-
-    public String getId() {
-        return "com.waterloorocketry.dragoverride";
     }
 
     @Override
