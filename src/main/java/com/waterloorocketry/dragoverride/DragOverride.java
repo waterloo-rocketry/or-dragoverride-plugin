@@ -18,11 +18,10 @@ public class DragOverride extends AbstractSimulationExtension {
     }
 
     public void initialize(SimulationConditions conditions) throws SimulationException {
-        conditions.getSimulationListenerList().add(new DragOverrideSimulationListener());
-
         ReadCSV readCSV = new ReadCSV();
         LazyMap<Double, AeroData, AeroData> dragData = readCSV.readCSV(this.getCSVFile());
-        System.out.println(dragData.get(0.1).toString());
+        conditions.getSimulationListenerList().add(new DragOverrideSimulationListener(dragData));
+//        System.out.println(dragData.get(0.1).toString());
     }
 
     public String getName() {

@@ -75,6 +75,14 @@ public class AeroData {
         this.reynoldsNumber = Double.parseDouble(values[headerMap.get("Reynolds Number")].trim());
     }
 
+    public double getCdPowerOff() {
+        return this.cdPowerOff;
+    }
+
+    public double getCdPowerOn() {
+        return this.cdPowerOn;
+    }
+
     @Override
     public String toString() {
         return "AeroData{" +
