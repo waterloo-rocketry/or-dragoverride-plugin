@@ -12,16 +12,26 @@ import info.openrocket.core.simulation.SimulationConditions;
 import info.openrocket.core.simulation.exception.SimulationException;
 import info.openrocket.core.simulation.extension.AbstractSimulationExtension;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+
 
 public class DragOverride extends AbstractSimulationExtension {
     public DragOverride() {
     }
 
     public void initialize(SimulationConditions conditions) throws SimulationException {
-        ReadCSV readCSV = new ReadCSV();
-        LazyMap<Double, AeroData, AeroData> dragData = readCSV.readCSV(this.getCSVFile());
-        conditions.getSimulationListenerList().add(new DragOverrideSimulationListener(dragData));
-//        System.out.println(dragData.get(0.1).toString());
+        LazyMap<Double, AeroData[], AeroData[]> dragData = ReadCSV.readCSV(this.getCSVFile());
+        BufferedWriter writer = null;
+
+        try {
+            writer = new BufferedWriter(new FileWriter("simu-out.csv"));
+            writer.write("CurrentTime,Mach,Alpha,CdOrg,CdMod,Thrust\n");
+        } catch (Exception e) {
+            System.out.println("Error creating csv");
+        }
+
+        conditions.getSimulationListenerList().add(new DragOverrideSimulationListener(dragData, writer));
     }
 
     public String getName() {
