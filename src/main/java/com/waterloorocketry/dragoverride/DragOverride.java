@@ -26,7 +26,7 @@ public class DragOverride extends AbstractSimulationExtension {
 
         try {
             writer = new BufferedWriter(new FileWriter("simu-out.csv"));
-            writer.write("CurrentTime,Mach,Alpha,CdOrg,CdMod,Thrust\n");
+            writer.write("CurrentTime,Mach,Alpha(AOA),CdOrg,CdMod,Thrust\n");
         } catch (Exception e) {
             System.out.println("Error creating csv");
         }
