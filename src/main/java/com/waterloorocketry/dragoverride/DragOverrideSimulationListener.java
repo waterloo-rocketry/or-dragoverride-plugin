@@ -42,7 +42,7 @@ public class DragOverrideSimulationListener extends AbstractSimulationListener {
         double currentMach = flightConditions.getMach();
         double roundedMach = Math.round(currentMach * 100.0) / 100.0;
         double absAlpha = Math.abs(flightConditions.getAOA());
-        int classifiedAlphaIndex = (absAlpha < 2) ? 0 : (absAlpha < 4) ? 1 : 2; // TODO: Implement interpolation
+        int classifiedAlphaIndex = absAlpha < 11 ? (int) Math.floor(absAlpha) : 10;
         AeroData modifyData = dragData.get(roundedMach)[classifiedAlphaIndex];
         double modifiedCd;
 

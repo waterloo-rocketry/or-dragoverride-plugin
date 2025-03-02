@@ -11,7 +11,7 @@ public class ReadCSV {
     public static LazyMap<Double, AeroData[], AeroData[]> readCSV(String csvFile) {
         String delimiter = ",";
         // Allowed Alpha values.
-        Set<Double> allowedAlphas = new HashSet<>(Arrays.asList(0.0, 2.0, 4.0));
+        Set<Double> allowedAlphas = new HashSet<>(Arrays.asList(0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0));
         // Map that groups AeroData by Mach.
         Map<Double, List<AeroData>> machMap = new HashMap<>();
 
@@ -49,9 +49,9 @@ public class ReadCSV {
             Map<Double, AeroData[]> finalMap = new HashMap<>();
             for (Map.Entry<Double, List<AeroData>> entry : machMap.entrySet()) {
                 List<AeroData> list = entry.getValue();
-                if (list.size() != 3) {
+                if (list.size() != 11) {
                     System.err.println("Warning: For Mach " + entry.getKey()
-                            + ", expected 3 AeroData entries for allowed Alpha values but found "
+                            + ", expected 11 AeroData entries for allowed Alpha values but found "
                             + list.size());
                 }
                 AeroData[] dataArray = list.toArray(new AeroData[list.size()]);
@@ -63,6 +63,17 @@ public class ReadCSV {
         } catch (IOException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+    public static void main(String[] args) {
+        String csvFile = "rockets/Aurora/Cycle0_6inNozzle.csv";
+        LazyMap<Double, AeroData[], AeroData[]> dragData = ReadCSV.readCSV(csvFile);
+
+        if (dragData != null) {
+            System.out.println("CSV Data Loaded Successfully");
+            System.out.println("Mach values: " + dragData.keySet());
+        } else {
+            System.out.println("Failed to load CSV data");
         }
     }
 }
