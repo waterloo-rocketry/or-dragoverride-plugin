@@ -31,7 +31,9 @@ public class DragOverride extends AbstractSimulationExtension {
             System.out.println("Error creating csv");
         }
 
-        conditions.getSimulationListenerList().add(new DragOverrideSimulationListener(dragData, writer));
+        DragOverrideSimulationListener listener = new DragOverrideSimulationListener(dragData, writer);
+        conditions.getSimulationListenerList().add(listener);
+        calculatinginterpolatedCD(dragData, listener.getEngineStatus());
     }
 
     public String getName() {
@@ -42,6 +44,45 @@ public class DragOverride extends AbstractSimulationExtension {
     public String getDescription() {
         return "A plugin that overrides OpenRocket's drag coefficient based on a selected csv file.";
     }
+
+    public void calculatinginterpolatedCD(LazyMap<Double, AeroData[], AeroData[]> dragData, boolean engineStatus) throws SimulationException {
+
+        int i = 0;
+        double cd2 = 0;
+        double mach2 = 0;
+        double cd1, mach1, interpolatedcd;
+
+        // check if csv file is there
+        if (dragData == null) {
+            throw new SimulationException("CSV data is empty or not selected.");
+        }
+        for (Double key : dragData.keySet()) {
+            AeroData[] aeroData = dragData.get(key);
+
+            mach1 = key;
+            if (engineStatus) {
+                cd1 = aeroData[0].getCdPowerOn();
+            } else {
+                cd1 = aeroData[0].getCdPowerOff();
+            }
+
+            if (i > 0) {
+                System.out.println("cd1 is: " + cd1);
+                System.out.println("cd2 is: " + cd2);
+                System.out.println("mach1 is: " + mach1);
+                System.out.println("mach2 is: " + mach2);
+
+                interpolatedcd = cd1 + ((cd2-cd1)/0.01) * (mach2-mach1);
+                System.out.println("interpolatedcd is: " + interpolatedcd);
+            }
+
+            mach2 = mach1;
+            cd2 = cd1;
+
+            i++;
+        }
+    }
+
 
     public String getCSVFile() {
         return config.getString("csvFile", "");

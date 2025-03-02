@@ -36,6 +36,10 @@ public class DragOverrideSimulationListener extends AbstractSimulationListener {
         return thrust;
     }
 
+    public boolean getEngineStatus() {
+        return engineStatus;
+    }
+
     @Override
     public AerodynamicForces postAerodynamicCalculation(SimulationStatus status, AerodynamicForces forces) throws SimulationException {
         double currentTime = status.getSimulationTime();
