@@ -20,12 +20,26 @@ public class AeroData {
         this.cdPowerOn      = Double.parseDouble(values[headerMap.get("CD_On")].trim());
     }
 
+    public AeroData() {
+        this.alpha = 0.0;
+        this.cdPowerOff = 0.0;
+        this.cdPowerOn = 0.0;
+    }
+
     public double getCdPowerOff() {
         return this.cdPowerOff;
     }
 
     public double getCdPowerOn() {
         return this.cdPowerOn;
+    }
+
+    public void setCdPowerOff(double cdPowerOff) {
+        this.cdPowerOff = cdPowerOff;
+    }
+
+    public void setCdPowerOn(double cdPowerOn) {
+        this.cdPowerOn = cdPowerOn;
     }
 
     @Override

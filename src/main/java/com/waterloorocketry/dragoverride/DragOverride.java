@@ -21,19 +21,25 @@ public class DragOverride extends AbstractSimulationExtension {
     }
 
     public void initialize(SimulationConditions conditions) throws SimulationException {
-        LazyMap<Double, AeroData[], AeroData[]> dragData = ReadCSV.readCSV(this.getCSVFile());
-        BufferedWriter writer = null;
-
         try {
-            writer = new BufferedWriter(new FileWriter("simu-out.csv"));
-            writer.write("CurrentTime,Mach,Alpha(AOA),CdOrg,CdMod,Thrust\n");
-        } catch (Exception e) {
-            System.out.println("Error creating csv");
-        }
+            LazyMap<Double, AeroData[], AeroData[]> dragData = ReadCSV.readCSV(this.getCSVFile());
+            BufferedWriter writer = null;
 
-        DragOverrideSimulationListener listener = new DragOverrideSimulationListener(dragData, writer);
-        conditions.getSimulationListenerList().add(listener);
-        calculatinginterpolatedCD(dragData, listener.getEngineStatus());
+            try {
+                writer = new BufferedWriter(new FileWriter("simu-out.csv"));
+                writer.write("CurrentTime,Mach,Alpha(AOA),CdOrg,CdMod,Thrust\n");
+            } catch (Exception e) {
+                System.out.println("Error creating csv");
+            }
+
+            DragOverrideSimulationListener listener = new DragOverrideSimulationListener(dragData, writer);
+            conditions.getSimulationListenerList().add(listener);
+            calculatinginterpolatedCD(dragData, listener.getEngineStatus());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new SimulationException("error is.. " + e.getMessage(),e);
+
+        }
     }
 
     public String getName() {
@@ -59,6 +65,10 @@ public class DragOverride extends AbstractSimulationExtension {
         for (Double key : dragData.keySet()) {
             AeroData[] aeroData = dragData.get(key);
 
+            if (aeroData == null || aeroData.length == 0) {
+                throw new SimulationException("No AeroData found for Mach number: " + key);
+            }
+
             mach1 = key;
             if (engineStatus) {
                 cd1 = aeroData[0].getCdPowerOn();
@@ -67,18 +77,36 @@ public class DragOverride extends AbstractSimulationExtension {
             }
 
             if (i > 0) {
+                if (mach1 == mach2) {
+                    throw new SimulationException("Consecutive Mach numbers are the same. Unable to interpolate.");
+                }
                 System.out.println("cd1 is: " + cd1);
                 System.out.println("cd2 is: " + cd2);
-                System.out.println("mach1 is: " + mach1);
-                System.out.println("mach2 is: " + mach2);
+                System.out.println("mach1 is: " + mach2);
+                System.out.println("mach2 is: " + mach1);
 
-                interpolatedcd = cd1 + ((cd2-cd1)/0.01) * (mach2-mach1);
+                interpolatedcd = cd1 + ((cd2-cd1)/0.01) * (mach1-mach2);
+                double interpolatedmach = 0;
+                interpolatedmach = (mach1 + mach2)/2;
                 System.out.println("interpolatedcd is: " + interpolatedcd);
+
+                // create new aerodata object with interpolated cd values
+                AeroData insertdata = new AeroData();
+
+                if (engineStatus) {
+                    insertdata.setCdPowerOn(interpolatedcd);
+                } else {
+                    insertdata.setCdPowerOff(interpolatedcd);
+                }
+                System.out.println("Inserted interpolated AeroData: " + insertdata);
+                System.out.println("interpolatedmach: " + interpolatedmach);
+
+                dragData.put(interpolatedmach, new AeroData[]{insertdata});
+
             }
 
             mach2 = mach1;
             cd2 = cd1;
-
             i++;
         }
     }
