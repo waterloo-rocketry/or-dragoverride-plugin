@@ -34,10 +34,6 @@ public class AeroData {
         return this.cdPowerOn;
     }
 
-    public void setCdPowerOff(double cdPowerOff) {
-        this.cdPowerOff = cdPowerOff;
-    }
-
     public void setCdPowerOn(double cdPowerOn) {
         this.cdPowerOn = cdPowerOn;
     }
