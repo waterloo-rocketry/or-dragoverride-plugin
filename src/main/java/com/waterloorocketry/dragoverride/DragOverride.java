@@ -37,7 +37,7 @@ public class DragOverride extends AbstractSimulationExtension {
 
             DragOverrideSimulationListener listener = new DragOverrideSimulationListener(dragData, writer);
             conditions.getSimulationListenerList().add(listener);
-            InterpolatedCDCalculation.calculatinginterpolatedCD(dragData, listener.getEngineStatus(), new AerodynamicForces());
+//            InterpolatedCDCalculation.calculatinginterpolatedCD(dragData, listener.getEngineStatus(), new AerodynamicForces());
         } catch (Exception e) {
             e.printStackTrace();
             throw new SimulationException("error is.. " + e.getMessage(),e);
