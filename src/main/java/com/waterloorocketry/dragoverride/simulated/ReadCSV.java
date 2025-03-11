@@ -13,7 +13,7 @@ public class ReadCSV {
         // Allowed Alpha values.
         Set<Double> allowedAlphas = new HashSet<>(Arrays.asList(0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0));
         // Map that groups AeroData by Mach.
-        Map<Double, List<AeroData>> machMap = new HashMap<>();
+        Map<Double, List<AeroData>> machMap = new LinkedHashMap<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             // Read header and build column-index mapping.
@@ -46,7 +46,7 @@ public class ReadCSV {
             }
 
             // Convert each list of AeroData into an array.
-            Map<Double, AeroData[]> finalMap = new HashMap<>();
+            Map<Double, AeroData[]> finalMap = new LinkedHashMap<>();
             for (Map.Entry<Double, List<AeroData>> entry : machMap.entrySet()) {
                 List<AeroData> list = entry.getValue();
                 if (list.size() != 11) {

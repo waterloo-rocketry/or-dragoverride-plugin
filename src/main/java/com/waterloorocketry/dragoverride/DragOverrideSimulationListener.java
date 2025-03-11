@@ -15,11 +15,13 @@ public class DragOverrideSimulationListener extends AbstractSimulationListener {
     private final LazyMap<Double, AeroData[], AeroData[]> dragData;
     private boolean engineStatus = false;
     private BufferedWriter csvWriter;
+    InterpolatedCDCalculation calculator;
 
     public DragOverrideSimulationListener(LazyMap<Double, AeroData[], AeroData[]> dragData, BufferedWriter writer) {
         super();
         this.dragData = dragData;
         this.csvWriter = writer;
+        this.calculator = new InterpolatedCDCalculation(dragData);
     }
 
     private FlightConditions flightConditions = null;
@@ -36,42 +38,23 @@ public class DragOverrideSimulationListener extends AbstractSimulationListener {
         return thrust;
     }
 
+    public boolean getEngineStatus() {
+        return engineStatus;
+    }
+
     @Override
     public AerodynamicForces postAerodynamicCalculation(SimulationStatus status, AerodynamicForces forces) throws SimulationException {
         double currentTime = status.getSimulationTime();
         double currentMach = flightConditions.getMach();
         double roundedMach = Math.round(currentMach * 100.0) / 100.0;
         double absAlpha = Math.abs(flightConditions.getAOA());
-        int classifiedAlphaIndex = absAlpha < 11 ? (int) Math.floor(absAlpha) : 10;
-        AeroData modifyData = dragData.get(roundedMach)[classifiedAlphaIndex];
-        double modifiedCd;
-
         double originalCd = forces.getCD();
+        double calculatedCd = calculator.calculatinginterpolatedCD(absAlpha, roundedMach, engineStatus);
 
-        if (this.thrust > 0.0) {
-            if (!engineStatus) {
-                engineStatus = true;
-                System.out.println("====================================");
-                System.out.println("========== Engine is on ===========");
-                System.out.println("====================================");
-                System.out.println("Time: " + currentTime + " Thrust: " + this.thrust);
-            }
-            modifiedCd = modifyData.getCdPowerOn();
-        } else {
-            if (engineStatus) {
-                engineStatus = false;
-                System.out.println("====================================");
-                System.out.println("========== Engine is off ==========");
-                System.out.println("====================================");
-                System.out.println("Time: " + currentTime + " Thrust: " + this.thrust);
-            }
-            modifiedCd = modifyData.getCdPowerOff();
-        }
-
-        forces.setCD(modifiedCd);
+        forces.setCD(calculatedCd);
 
         try {
-            csvWriter.write(currentTime + "," + currentMach + "," + absAlpha + "," + originalCd + "," + modifiedCd + "," + this.thrust + "\n");
+            csvWriter.write(currentTime + "," + currentMach + "," + absAlpha + "," + originalCd + "," + calculatedCd + "," + this.thrust + "\n");
             csvWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();

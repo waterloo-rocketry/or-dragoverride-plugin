@@ -8,9 +8,12 @@ package com.waterloorocketry.dragoverride;
 import com.waterloorocketry.dragoverride.simulated.AeroData;
 import com.waterloorocketry.dragoverride.simulated.ReadCSV;
 import com.waterloorocketry.dragoverride.util.LazyMap;
+import com.waterloorocketry.dragoverride.InterpolatedCDCalculation;
 import info.openrocket.core.simulation.SimulationConditions;
 import info.openrocket.core.simulation.exception.SimulationException;
 import info.openrocket.core.simulation.extension.AbstractSimulationExtension;
+import info.openrocket.core.aerodynamics.AerodynamicForces;
+
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -21,17 +24,25 @@ public class DragOverride extends AbstractSimulationExtension {
     }
 
     public void initialize(SimulationConditions conditions) throws SimulationException {
-        LazyMap<Double, AeroData[], AeroData[]> dragData = ReadCSV.readCSV(this.getCSVFile());
-        BufferedWriter writer = null;
-
         try {
-            writer = new BufferedWriter(new FileWriter("simu-out.csv"));
-            writer.write("CurrentTime,Mach,Alpha(AOA),CdOrg,CdMod,Thrust\n");
-        } catch (Exception e) {
-            System.out.println("Error creating csv");
-        }
+            LazyMap<Double, AeroData[], AeroData[]> dragData = ReadCSV.readCSV(this.getCSVFile());
+            BufferedWriter writer = null;
 
-        conditions.getSimulationListenerList().add(new DragOverrideSimulationListener(dragData, writer));
+            try {
+                writer = new BufferedWriter(new FileWriter("simu-out.csv"));
+                writer.write("CurrentTime,Mach,Alpha(AOA),CdOrg,CdMod,Thrust\n");
+            } catch (Exception e) {
+                System.out.println("Error creating csv");
+            }
+
+            DragOverrideSimulationListener listener = new DragOverrideSimulationListener(dragData, writer);
+            conditions.getSimulationListenerList().add(listener);
+//            InterpolatedCDCalculation.calculatinginterpolatedCD(dragData, listener.getEngineStatus(), new AerodynamicForces());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new SimulationException("error is.. " + e.getMessage(),e);
+
+        }
     }
 
     public String getName() {
