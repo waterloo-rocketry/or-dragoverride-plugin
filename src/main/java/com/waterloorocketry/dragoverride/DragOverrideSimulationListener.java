@@ -9,7 +9,6 @@ import info.openrocket.core.simulation.SimulationStatus;
 import info.openrocket.core.simulation.exception.SimulationException;
 
 import java.io.BufferedWriter;
-import java.io.IOException;
 
 public class DragOverrideSimulationListener extends AbstractSimulationListener {
     private final LazyMap<Double, AeroData[], AeroData[]> dragData;
@@ -54,9 +53,9 @@ public class DragOverrideSimulationListener extends AbstractSimulationListener {
         forces.setCD(calculatedCd);
 
         try {
-            csvWriter.write(currentTime + "," + currentMach + "," + absAlpha + "," + originalCd + "," + calculatedCd + "," + this.thrust + "\n");
-            csvWriter.flush();
-        } catch (IOException e) {
+            this.csvWriter.write(currentTime + "," + currentMach + "," + absAlpha + "," + originalCd + "," + calculatedCd + "," + this.thrust + "\n");
+            this.csvWriter.flush();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return forces;
